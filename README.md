@@ -141,3 +141,61 @@ calculateTotalPayroll() {
   }
 }
 const company = new Company("TechCorp");
+
+class Employee {
+  constructor(name, id, department, salary) {
+    this.name = name;
+    this.id = id;
+    this.department = department;
+    this.salary = salary;
+  }
+
+  getDetails() {
+    return `Employee: ${this.name}, ID: ${this.id}, Department: ${this.department}, Salary: $${this.salary}`;
+  }
+
+  calculateAnnualSalary() {
+    return this.salary * 12;
+  }
+}
+
+// Manager class definition (from Task 2)
+class Manager extends Employee {
+  constructor(name, id, department, salary, teamSize) {
+    super(name, id, department, salary);
+    this.teamSize = teamSize;
+  }
+getDetails() {
+    return `Manager: ${this.name}, ID: ${this.id}, Department: ${this.department}, Salary: $${this.salary}, Team Size: ${this.teamSize}`;
+  }
+
+  calculateAnnualSalary() {
+    const baseAnnualSalary = super.calculateAnnualSalary();
+    const bonus = this.calculateBonus();
+    return baseAnnualSalary + bonus;
+  }
+
+  calculateBonus() {
+    return this.salary * 12 * 0.1;
+  }
+}class Company {
+  constructor(name) {
+    this.name = name;
+    this.employees = []; // Array to store employee objects
+  }
+
+  addEmployee(employee) {
+    this.employees.push(employee);
+  }
+
+  listEmployees() {
+    this.employees.forEach(employee => {
+      console.log(employee.getDetails());
+    });
+  }
+
+  calculateTotalPayroll() {
+    return this.employees.reduce((total, employee) => total + employee.calculateAnnualSalary(), 0);
+  }
+promoteToManager(employee, teamSize) {
+    if (employee instanceof Employee && !(employee instanceof Manager)) {
